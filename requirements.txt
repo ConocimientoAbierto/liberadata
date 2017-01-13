@@ -1,2 +1,7 @@
 django
 django-extensions
+djangorestframework
+lxml
+django-adaptors
+chardet
+kitchen

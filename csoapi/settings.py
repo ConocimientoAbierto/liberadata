@@ -37,8 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'django_extensions',
     'liberacion',
+    'direlegislativo',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +132,11 @@ STATICFILES_DIRS = (
 
 FILES_PATH = "files/"
 FILES_ROOT = os.path.join(STATIC_ROOT, FILES_PATH)
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+    'PAGE_SIZE': 10
+}
