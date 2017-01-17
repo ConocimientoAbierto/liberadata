@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block title %}Cargar datos{%endblock%}
+{% block content %}
       <form class="" action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form }}
-        <input type="submit" name="name" value="Subir">
+        {% bootstrap_form form %}
+        {% buttons submit="Cargar" %}
+        {% endbuttons %}
       </form>
-  </body>
-</html>
+
+{% endblock %}

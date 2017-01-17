@@ -1,19 +1,33 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-      <h1>Liberadata</h1>
-      <ul>
-      {% for source in sources %}
-      <li><a href="{{source.name}}">{{source.name}}</a>
-        {% for csv in source.csvs %}
-        <a href="{{csv}}">{{csv}}
-        {% endfor %}
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block title %}Listado{%endblock%}
+{% block content %}
+<h2>Datos liberados</h2>
+<ul class="list-group">
+  {% for source in sources %}
+  <li class="list-group-item">
+    <h3>API de datos de {{source.name}}</h3>
+    <p>
+    <a href="{{source.api_url}}" class="btn btn-primary">Acceder a {{source.name}}</a>
+    </p>
+    <p>
+    Fecha de actualización: {{source.last_update}}
+    </p>
+    <p>
+      Cantidad de registros: {{source.count}}
+    </p>
+    <p>
+      Licencia: {{source.license}}
+    </p>
+    {% for csv in source.csvs %}
+    <h3>Descarga de archivos CSV</h3>
+    <ul class="list-group">
+      <li class="list-group-item">
+        <a href="{{csv.download_url}}">{{csv.name}}.csv ({{csv.size}})</a>
       </li>
-      {% endfor %}
-      <a href="/upload">Cargar datos</a>
-  </body>
-</html>
+    </ul>
+    {% endfor %}
+  </li>
+  {% endfor %}
+</ul>
+{%endblock%}

@@ -11,6 +11,7 @@ from django.utils.encoding import smart_text,force_text
 import chardet
 from kitchen.text.converters import to_unicode,to_bytes
 from adaptor.model import CsvModel,CsvDbModel
+import csv
 
 # Create your models here.
 class SalesforceBackup(models.Model):
@@ -19,6 +20,24 @@ class SalesforceBackup(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     app_name = models.CharField(null=True,max_length=255)
 
+    def export(this):
+        models = this.get_exportable_models(this.app_name)
+        for model in models:
+            csvfilename = settings.STATIC_ROOTA+"/"+model._meta.label+".csv";
+            print "exporting "+csvfilename
+            with open(csvfilename, 'w') as csvfile:
+                writer = csv.writer(csvfile)
+                fieldlist = []
+                for field in model._meta.fields:
+                    fieldlist.append(field.name)
+                writer.writerow(fieldlist)
+
+                for obj in model.objects.all():
+                    objlist = []
+                    for fieldname in fieldlist:
+                        value = obj.serializable_value(fieldname)
+                        objlist.append(value)
+                    writer.writerow(objlist)
 
     def parse(this):
         #Abre para lectura el zip
@@ -71,7 +90,20 @@ class SalesforceBackup(models.Model):
             if tablename in f:
                 return m
 
-    def get_importer(model):
-        importerMeta = type(str("Meta"),(),{"delimiter": str(','),"has_header": True,"dbModel": model })
-        importer = type(str("importer"),(CsvDbModel,),{"Meta": importerMeta})
+    def get_exportable_models(this,appname):
+        appConfig = apps.get_app_config(appname)
+
+        exportable = []
+
+        models = appConfig.models
+        for n in models:
+            m = appConfig.models[n]
+            if m.__dict__["export_csv"] == True:
+                exportable.append(m)
+        return exportable
+
+
+    def get_importer(this,model):
+        importerMeta = type(str("Meta"),(),{"delimiter": str(','),"has_header": True,"dbModel": model,"silent_failure": True })
+        importer = type(str("importer_"+model._meta.verbose_name),(CsvDbModel,),{"Meta": importerMeta})
         return importer

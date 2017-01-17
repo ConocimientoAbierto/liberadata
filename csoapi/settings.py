@@ -25,7 +25,7 @@ SECRET_KEY = '(mo9&&geo-u8_59e+!hle_0tnkj#4o^5vf7b**y1-ge5!^du1i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['liberadata.fcabierto.org','localhost']
 
 
 # Application definition
@@ -38,10 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'bootstrap3',
     'django_extensions',
     'liberacion',
     'direlegislativo',
 ]
+
+EXCLUDED_APPS = ("rest_framework","django_extensions","liberacion","bootstrap3")
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -122,7 +126,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOTA = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
@@ -131,7 +135,7 @@ STATICFILES_DIRS = (
 )
 
 FILES_PATH = "files/"
-FILES_ROOT = os.path.join(STATIC_ROOT, FILES_PATH)
+FILES_ROOT = os.path.join(STATIC_ROOTA, FILES_PATH)
 
 
 REST_FRAMEWORK = {

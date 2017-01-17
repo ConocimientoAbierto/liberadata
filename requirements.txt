@@ -2,6 +2,7 @@ django
 django-extensions
 djangorestframework
 lxml
-django-adaptors
+-egit+https://github.com/martinszy/django-adaptors#egg=django-adaptors
 chardet
 kitchen
+django-bootstrap3
