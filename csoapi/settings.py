@@ -59,7 +59,7 @@ LOGGING = {
         'log_file':{
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': '/var/www/wilimark/log/wili.log',#os.path.join(VAR_ROOT, 'logs/django.log'),
+            'filename': 'log/debug.log',#os.path.join(VAR_ROOT, 'logs/django.log'),
             'maxBytes': '16777216', # 16megabytes
             'formatter': 'verbose'
         },
